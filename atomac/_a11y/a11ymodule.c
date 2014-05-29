@@ -449,6 +449,20 @@ _CFAttributeToPyObject(PyObject *self,      // IN: Python self object
       return res;
    } // if CFArrayGetTypeID() == CFGetTypeID(attrValue)
 
+  //Now supprting AXURL in AX
+  if (CFURLGetTypeID() == CFGetTypeID(attrValue))
+  {
+      CFStringRef URLstr = CFURLGetString(attrValue);
+      if (URLstr != NULL)
+      {
+          return CFStringRefToPyUnicode(URLstr);
+      }
+      else
+      {
+        return NULL;
+      }
+  }
+
    PyErr_SetString(atomacErrorUnsupported, "Return value not supported yet.");
    return NULL;
 }
